@@ -1,26 +1,31 @@
 const express = require("express");
 const {
-  getDoctorInfo,
-  updateProfile,
-  getDoctorId,
-  doctorAppointmentcon,
-  updateStatus,
+  getDoctorInfoController,
+  updateProfileController,
+  getDoctorByIdController,
+  doctorAppointmentsController,
+  updateStatusController,
 } = require("../controllers/doctorCtrl");
-const auth = require("../middlewares/auth");
+const authMiddleware = require("../middlewares/authMiddleware");
 const router = express.Router();
 
-// post the doctor information for updating the profile
-router.post("/getDoctorInfo", auth, getDoctorInfo);
-// post update profile
-router.post("/updateProfile", auth, updateProfile);
+//POST SINGLE DOC INFO
+router.post("/getDoctorInfo", authMiddleware, getDoctorInfoController);
 
-// for booking appointment
-router.post("/getDoctorId", auth, getDoctorId);
+//POST UPDATE PROFILE
+router.post("/updateProfile", authMiddleware, updateProfileController);
 
-// to show appoitments
-router.get("/doctor-appointments", auth, doctorAppointmentcon);
+//POST  GET SINGLE DOC INFO
+router.post("/getDoctorById", authMiddleware, getDoctorByIdController);
 
-// to accept or reject the appointment
-router.post("/update-status", auth, updateStatus);
+//GET Appointments
+router.get(
+  "/doctor-appointments",
+  authMiddleware,
+  doctorAppointmentsController
+);
+
+//POST Update Status
+router.post("/update-status", authMiddleware, updateStatusController);
 
 module.exports = router;

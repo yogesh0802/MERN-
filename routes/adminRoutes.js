@@ -1,19 +1,24 @@
 const express = require("express");
 const {
-  getAllUsers,
-  getAllDoctors,
-  changeAccountStatuscon,
+  getAllUsersController,
+  getAllDoctorsController,
+  changeAccountStatusController,
 } = require("../controllers/adminCtrl");
-const auth = require("../middlewares/auth");
+const authMiddleware = require("../middlewares/authMiddleware");
 
 const router = express.Router();
 
-// get method for users to disply in users section for admin
-router.get("/getAllUsers", auth, getAllUsers);
-// for doctors to display
-router.get("/getAllDoctors", auth, getAllDoctors);
+//GET METHOD || USERS
+router.get("/getAllUsers", authMiddleware, getAllUsersController);
 
-// post change account status
-router.post("/changeAccountStatus", auth, changeAccountStatuscon);
+//GET METHOD || DOCTORS
+router.get("/getAllDoctors", authMiddleware, getAllDoctorsController);
+
+//POST ACCOUNT STATUS
+router.post(
+  "/changeAccountStatus",
+  authMiddleware,
+  changeAccountStatusController
+);
 
 module.exports = router;

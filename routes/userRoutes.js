@@ -4,14 +4,14 @@ const {
   registerController,
   authController,
   applyDoctorController,
-  getAllNotificationCon,
-  deleteAllNotificationCon,
-  getAllDoctorscon,
-  bookAppoitmentcon,
-  bookingAvalibilitycon,
-  userAppointmentcon,
+  getAllNotificationController,
+  deleteAllNotificationController,
+  getAllDocotrsController,
+  bookeAppointmnetController,
+  bookingAvailabilityController,
+  userAppointmentsController,
 } = require("../controllers/userCtrl");
-const auth = require("../middlewares/auth");
+const authMiddleware = require("../middlewares/authMiddleware");
 
 //router onject
 const router = express.Router();
@@ -23,24 +23,39 @@ router.post("/login", loginController);
 //REGISTER || POST
 router.post("/register", registerController);
 
-// auth or homepage
-router.post("/getUserData", auth, authController);
-// doctor aplpy
-router.post("/apply-doctor", auth, applyDoctorController);
-// for notification
-router.post("/get-all-notification", auth, getAllNotificationCon);
-router.post("/delete-all-notification", auth, deleteAllNotificationCon);
+//Auth || POST
+router.post("/getUserData", authMiddleware, authController);
 
-// router get all doctor for user
-router.get("/getAllDoctors", auth, getAllDoctorscon);
+//APply Doctor || POST
+router.post("/apply-doctor", authMiddleware, applyDoctorController);
 
-// book appointmnet
-router.post("/book-appointment", auth, bookAppoitmentcon);
+//Notifiaction  Doctor || POST
+router.post(
+  "/get-all-notification",
+  authMiddleware,
+  getAllNotificationController
+);
+//Notifiaction  Doctor || POST
+router.post(
+  "/delete-all-notification",
+  authMiddleware,
+  deleteAllNotificationController
+);
 
-// to check availibility
-router.post("/booking-availbility", auth, bookingAvalibilitycon);
+//GET ALL DOC
+router.get("/getAllDoctors", authMiddleware, getAllDocotrsController);
 
-// to show appointmenst
-router.get("/user-appointments", auth, userAppointmentcon);
+//BOOK APPOINTMENT
+router.post("/book-appointment", authMiddleware, bookeAppointmnetController);
+
+//Booking Avliability
+router.post(
+  "/booking-availbility",
+  authMiddleware,
+  bookingAvailabilityController
+);
+
+//Appointments List
+router.get("/user-appointments", authMiddleware, userAppointmentsController);
 
 module.exports = router;
